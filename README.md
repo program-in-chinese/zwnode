@@ -203,7 +203,7 @@ public:
 
 //内置对象和函数修改实例：
  添加 “控制台.日志” 等效 “console.log”
-
+ 
 lib\internal\bootstrap\node.js // v10
 lib\internal\bootstrap_node.js // v8
 // 仿照添加 “控制台” 等效 “console”
@@ -212,14 +212,14 @@ lib\internal\bootstrap_node.js // v8
       enumerable: true,
       get() {
         return wrappedConsole;
-      }
+        }
     });
     Object.defineProperty(global, '控制台', {
       configurable: true,
       enumerable: true,
       get() {
         return wrappedConsole;
-      }
+       }
     });
 
 
@@ -234,18 +234,15 @@ Console.prototype.info = Console.prototype.log;
 运行实例：
 hello.js
 函数 说1(词) {
-  控制台.日志(词);
+    控制台.日志(词);
 }
-
 函数 执行(某函数, 值) {
-  某函数(值);
+    某函数(值);
 }
-
 变 你 = "你"
-
 变 哈哈 = {
- 哈1: '好',
- 哈2: 12
+    哈1: '好',
+     哈2: 12
 }
 
 执行(说1, 你);
