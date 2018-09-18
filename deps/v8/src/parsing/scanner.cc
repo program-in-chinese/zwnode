@@ -1845,6 +1845,28 @@ Token::Value Scanner::ScanIdentifierOrKeywordInner(LiteralScope* literal) {
       return Token::ESCAPED_STRICT_RESERVED_WORD;
     }
     return Token::ESCAPED_KEYWORD;
+  } else {
+    Vector<const uint16_t> chars = next_.literal_chars->two_byte_literal();
+    Token::Value token =
+        ZWKeywordOrIdentifierToken(chars.start(), chars.length());
+    /* TODO(adamk): YIELD should be handled specially. */
+    if (token == Token::FUTURE_STRICT_RESERVED_WORD) {
+      literal->Complete();
+      if (escaped) return Token::ESCAPED_STRICT_RESERVED_WORD;
+      return token;
+    }
+    if (token == Token::IDENTIFIER || Token::IsContextualKeyword(token)) {
+      literal->Complete();
+      return token;
+    }
+
+    if (!escaped) return token;
+
+    literal->Complete();
+    if (token == Token::LET || token == Token::STATIC) {
+      return Token::ESCAPED_STRICT_RESERVED_WORD;
+    }
+    return Token::ESCAPED_KEYWORD;
   }
 
   literal->Complete();
